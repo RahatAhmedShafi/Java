@@ -111,23 +111,40 @@ class Triangle extends Shape{
     }
 }
 
+                            // Interface
+interface  Animal{
+
+    void eat();
+
+}
+class cat implements Animal{
+    @Override
+    public void eat() {
+        System.out.println("I eat Fish");
+    }
+}
+
 class student{
     static void main(String[] args) {
         Lab obj= new Lab();
         Overloading obj1=new Overloading();
         OverridingTest obj2=new OverridingTest();
+        Animal a;
+        a=new cat();
+        a.eat();
+        
 //        MobileUser mu;
 //        mu= new Karim();
 //        mu.sendmessage();
 //        mu=new Rahim();
 //        mu.sendmessage();
-        Shape s;
-        s=new Circle(7);
-        s.calculateArea();
-        s.calculatePerimeter();
-        s=new Triangle(3, 4, 5, 4, 3);
-        s.calculateArea();
-        s.calculatePerimeter();
+//        Shape s;
+//        s=new Circle(7);
+//        s.calculateArea();
+//        s.calculatePerimeter();
+//        s=new Triangle(3, 4, 5, 4, 3);
+//        s.calculateArea();
+//        s.calculatePerimeter();
 
 
 
