@@ -3,7 +3,6 @@ package LabCT01;
 public class Lab {
     int x=200;
 
-
 }
 class  Overloading{
    void add(int a, int b,int c){
@@ -132,7 +131,7 @@ class student{
         Animal a;
         a=new cat();
         a.eat();
-        
+
 //        MobileUser mu;
 //        mu= new Karim();
 //        mu.sendmessage();
@@ -148,7 +147,7 @@ class student{
 
 
 
-//        obj2.name="Shafi";
+        //obj2.name="Shafi";
 //        obj2.age=25;
 //        obj2.money=100;
 //        obj2.Overriding();
