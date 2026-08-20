@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UIU CSE1115: OOP Midterms Solved (252, 253, 261)</title>
+    <meta name="description" content="Trimester 252, 253, and 261 Object-Oriented Programming Midterm Exam Solutions.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-base: #0a0d16;
+            --bg-surface: #1e293b;
+            --bg-card: rgba(30, 41, 59, 0.7);
+            --primary: #38bdf8;
+            --primary-glow: rgba(56, 189, 248, 0.15);
+            --secondary: #ec4899;
+            --secondary-glow: rgba(236, 72, 153, 0.15);
+            --accent: #f59e0b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-glow: rgba(255, 255, 255, 0.08);
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            font-family: 'Outfit', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(at 0% 100%, rgba(236, 72, 153, 0.12) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(56, 189, 248, 0.15) 0px, transparent 50%);
+            background-attachment: fixed;
+        }
+
+        header {
+            padding: 2.5rem 2rem 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-glow);
+        }
+
+        .header-title h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        .header-title p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-top: 0.25rem;
+        }
+
+        .badge {
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.2), rgba(56, 189, 248, 0.2));
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            color: var(--primary);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem 5rem;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 0.75rem;
+            background: rgba(30, 41, 59, 0.4);
+            padding: 0.5rem;
+            border-radius: 16px;
+            border: 1px solid var(--border-glow);
+            backdrop-filter: blur(10px);
+            margin-bottom: 2.5rem;
+        }
+
+        .tab-btn {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 1rem;
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .tab-btn:hover {
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .tab-btn.active {
+            color: var(--text-main);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            box-shadow: 0 4px 20px rgba(56, 189, 248, 0.2);
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glow);
+            border-radius: 20px;
+            padding: 2.2rem;
+            backdrop-filter: blur(10px);
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-title {
+            color: var(--primary);
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-glow);
+            padding-bottom: 0.75rem;
+        }
+
+        /* Collapsible Question block */
+        .question-accordion {
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid var(--border-glow);
+            border-radius: 14px;
+            margin-bottom: 1.25rem;
+            overflow: hidden;
+            transition: var(--transition-smooth);
+        }
+
+        .question-accordion:hover {
+            border-color: rgba(56, 189, 248, 0.25);
+        }
+
+        .question-header {
+            padding: 1.25rem 1.75rem;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 1.1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            transition: var(--transition-smooth);
+        }
+
+        .question-header:hover {
+            color: var(--primary);
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .question-header::after {
+            content: '▼';
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            transition: var(--transition-smooth);
+        }
+
+        .question-accordion.open .question-header::after {
+            transform: rotate(-180deg);
+            color: var(--primary);
+        }
+
+        .question-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(15, 23, 42, 0.2);
+        }
+
+        .question-accordion.open .question-content {
+            max-height: 4000px;
+            border-top: 1px solid var(--border-glow);
+            padding: 1.5rem 1.75rem;
+        }
+
+        /* Coding tags and code text styles */
+        pre {
+            background: #090d16 !important;
+            padding: 1.25rem;
+            border-radius: 12px;
+            overflow-x: auto;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin: 1rem 0;
+        }
+
+        code {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            color: #f1f5f9;
+        }
+
+        .token-keyword { color: #f472b6; font-weight: bold; }
+        .token-class { color: #38bdf8; font-weight: bold; }
+        .token-method { color: #fbbf24; }
+        .token-comment { color: #64748b; font-style: italic; }
+        .token-string { color: #34d399; }
+        .token-number { color: #fb7185; }
+
+        .solution-tag {
+            background: rgba(16, 185, 129, 0.15);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            padding: 0.2rem 0.6rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-right: 0.5rem;
+        }
+
+        .warning-tag {
+            background: rgba(245, 158, 11, 0.15);
+            color: #fbbf24;
+            border: 1px solid rgba(245, 158, 11, 0.2);
+            padding: 0.2rem 0.6rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-right: 0.5rem;
+        }
+
+        .text-bold {
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .trace-output {
+            background: #020617;
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: 'Fira Code', monospace;
+            border-left: 3px solid var(--secondary);
+            margin: 0.5rem 0;
+            color: #e2e8f0;
+        }
+
+        .note-box {
+            background: rgba(56, 189, 248, 0.05);
+            border-left: 3px solid var(--primary);
+            padding: 1rem;
+            border-radius: 0 8px 8px 0;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+            color: #cbd5e1;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-title">
+            <h1>UIU Midterm OOP Solved</h1>
+            <p>Trimester Summer 2025, Fall 2025 & Spring 2026</p>
+        </div>
+        <div class="badge">Solved Bank</div>
+    </header>
+
+    <main>
+        <!-- Trimester Selection Tabs -->
+        <div class="tabs" role="tablist">
+            <button class="tab-btn active" onclick="switchTrimester('t252')">Summer 2025 (252)</button>
+            <button class="tab-btn" onclick="switchTrimester('t253')">Fall 2025 (253)</button>
+            <button class="tab-btn" onclick="switchTrimester('t261')">Spring 2026 (261)</button>
+        </div>
+
+        <!-- SUMMER 2025 (252) TAB CONTENT -->
+        <div id="t252" class="tab-content active">
+            <div class="card">
+                <h2 class="card-title">☀️ Summer 2025 Midterm Exam Solutions</h2>
+
+                <!-- 252 Q1 -->
+                <div class="question-accordion">
+                    <div class="question-header" onclick="toggleAccordion(this)">
+                        Q1: Cineplex & Seat 2D Jagged Arrays
+                    </div>
+                    <div class="question-content">
+                        <p style="color: var(--text-muted); margin-bottom: 0.5rem;">
+                            Initialize a 2D jagged array of <code>Seat</code> objects with 3 rows of variable sizes. Fill it with coordinate representations and modify a reference dynamically using a local pointer.
+                        </p>
+                        <h4 style="color: var(--primary); margin: 1rem 0 0.5rem;"><span class="solution-tag">Solution</span>Java Code:</h4>
+                        <pre><code><span class="token-comment">// (a) Declaring and Allocating 2D Jagged Array</span>
+<span class="token-class">Seat</span>[][] hall = <span class="token-keyword">new</span> <span class="token-class">Seat</span>[<span class="token-number">3</span>][];
+hall[<span class="token-number">0</span>] = <span class="token-keyword">new</span> <span class="token-class">Seat</span>[<span class="token-number">2</span>];
+hall[<span class="token-number">1</span>] = <span class="token-keyword">new</span> <span class="token-class">Seat</span>[<span class="token-number">3</span>];
+hall[<span class="token-number">2</span>] = <span class="token-keyword">new</span> <span class="token-class">Seat</span>[<span class="token-number">1</span>];
+
+<span class="token-comment">// (b) Filling Jagged Array using Nested Loops</span>
+<span class="token-keyword">for</span> (<span class="token-keyword">int</span> r = <span class="token-number">0</span>; r &lt; hall.length; r++) {
+    <span class="token-keyword">for</span> (<span class="token-keyword">int</span> c = <span class="token-number">0</span>; c &lt; hall[r].length; c++) {
+        hall[r][c] = <span class="token-keyword">new</span> <span class="token-class">Seat</span>(r, c, <span class="token-string">"Row"</span> + r + <span class="token-string">",Seat"</span> + c);
+        System.out.println(hall[r][c]);
+    }
+}
+
+<span class="token-comment">// (c) Pointing reference variable, modifying tag and printing</span>
+<span class="token-class">Seat</span> temp = hall[<span class="token-number">1</span>][<span class="token-number">2</span>];
+temp.<span class="token-method">setTag</span>(<span class="token-string">"VIP"</span>);
+System.out.println(hall[<span class="token-number">1</span>][<span class="token-number">2</span>]);</code></pre>
+                    </div>
+                </div>
+
+                <!-- 252 Q2 -->
+                <div class="question-accordion">
+                    <div class="question-header" onclick="toggleAccordion(this)">
+                        Q2: FirstClass & SecondClass Static/Instance Trace
+                    </div>
+                    <div class="question-content">
+                        <p style="color: var(--text-muted); margin-bottom: 0.5rem;">
+                            Trace the console outputs demonstrating execution flows of static variables, static blocks, instance initialization blocks, and constructors.
+                        </p>
+                        <h4 style="color: var(--secondary); margin: 1rem 0 0.5rem;"><span class="solution-tag">Result</span>Console Output:</h4>
+                        <div class="trace-output">
+FirstClass: static block<br>
+FirstClass: static block again<br>
+MAIN: start<br>
+SecondClass: static var b init<br>
+SecondClass: static block<br>
+FirstClass: one-arg ctor, a=9<br>
+FirstClass: no-arg ctor<br>
+FirstClass: one-arg ctor, a=9<br>
+FirstClass: display(), a=2, x=10<br>
+SecondClass: display(), b=9<br>
+SecondClass: instance block<br>
+SecondClass: no-arg ctor<br>
+SecondClass: display(), b=8<br>
+MAIN: end
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 252 Q3 -->
+                <div class="question-accordion">
+                    <div class="question-header" onclick="toggleAccordion(this)">
+                        Q3: Person, Student & GraduateStudent Hierarchy
+                    </div>
+                    <div class="question-content">
+                        <p style="color: var(--text-muted); margin-bottom: 0.5rem;">
+                            Implement inheritance with constructors calling parent constructors explicitly. Secure protected scopes and define custom getters and setters.
+                        </p>
+                        <h4 style="color: var(--primary); margin: 1rem 0 0.5rem;"><span class="solution-tag">Solution</span>Java Code:</h4>
+                        <pre><code><span class="token-keyword">class</span> <span class="token-class">Person</span> {
+    <span class="token-keyword">protected</span> String name;
+    <span class="token-keyword">private</span> <span class="token-keyword">int</span> age;
+
+    <span class="token-keyword">public</span> <span class="token-class">Person</span>(String name, <span class="token-keyword">int</span> age) {
+        <span class="token-keyword">this</span>.name = name;
+        setAge(age);
+    }
+
+    <span class="token-keyword">public</span> <span class="token-keyword">int</span> <span class="token-method">getAge</span>() { <span class="token-keyword">return</span> <span class="token-keyword">this</span>.age; }
+    <span class="token-keyword">public</span> <span class="token-keyword">void</span> <span class="token-method">setAge</span>(<span class="token-keyword">int</span> age) {
+        <span class="token-keyword">if</span> (age &gt;= <span class="token-number">0</span>) {
+            <span class="token-keyword">this</span>.age = age;
+        }
+    }
+}
+
+<span class="token-keyword">class</span> <span class="token-class">Student</span> <span class="token-keyword">extends</span> <span class="token-class">Person</span> {
+    <span class="token-keyword">protected</span> String studentId;
+
+    <span class="token-keyword">public</span> <span class="token-class">Student</span>(String name, <span class="token-keyword">int</span> age, String studentId) {
+        <span class="token-keyword">super</span>(name, age);
+        <span class="token-keyword">this</span>.studentId = studentId;
+    }
+}
+
+<span class="token-keyword">class</span> <span class="token-class">GraduateStudent</span> <span class="token-keyword">extends</span> <span class="token-class">Student</span> {
+    <span class="token-keyword">private</span> String thesisTitle;
+
+    <span class="token-keyword">public</span> <span class="token-class">GraduateStudent</span>(String name, <span class="token-keyword">int</span> age, String studentId, String thesisTitle) {
+        <span class="token-keyword">super</span>(name, age, studentId);
+        <span class="token-keyword">this</span>.thesisTitle = thesisTitle;
+    }
+
+    <span class="token-keyword">public</span> String <span class="token-method">getThesisTitle</span>() { <span class="token-keyword">return</span> <span class="token-keyword">this</span>.thesisTitle; }
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- 252 Q4 -->
+                <div class="question-accordion">
+                    <div class="question-header" onclick="toggleAccordion(this)">
+                        Q4: ColorPrinter and Overloading Overrides
+                    </div>
+                    <div class="question-content">
+                        <p style="color: var(--text-muted); margin-bottom: 0.5rem;">
+                            Provide overloaded printing methods in a base class and override them in a child class using <code>super</code> calls.
+                        </p>
+                        <h4 style="color: var(--primary); margin: 1rem 0 0.5rem;"><span class="solution-tag">Solution</span>Java Code:</h4>
+                        <pre><code><span class="token-keyword">class</span> <span class="token-class">Printer</span> {
+    <span class="token-keyword">private</span> String brand;
+    <span class="token-keyword">public</span> <span class="token-class">Printer</span>(String brand) { <span class="token-keyword">this</span>.brand = brand; }
+    
+    <span class="token-keyword">public</span> <span class="token-keyword">void</span> <span class="token-method">print</span>(String doc) {
+        System.out.println(<span class="token-string">"Printing document: "</span> + doc);
+    }
+
+    <span class="token-comment">// Overloaded print method</span>
+    <span class="token-keyword">public</span> <span class="token-keyword">void</span> <span class="token-method">print</span>(String doc, <span class="token-keyword">int</span> copies) {
+        System.out.println(<span class="token-string">"Printing "</span> + copies + <span class="token-string">" copies of the document: "</span> + doc);
+        <span class="token-keyword">for</span> (<span class="token-keyword">int</span> i = <span class="token-number">1</span>; i &lt;= copies; i++) {
+            System.out.println(<span class="token-string">"Printing copy "</span> + i);
+        }
+    }
+}
+
+<span class="token-keyword">class</span> <span class="token-class">ColorPrinter</span> <span class="token-keyword">extends</span> <span class="token-class">Printer</span> {
+    <span class="token-keyword">private</span> String color;
+    <span class="token-keyword">public</span> <span class="token-class">ColorPrinter</span>(String brand, String color) {
+        <span class="token-keyword">super</span>(brand);
+        <span class="token-keyword">this</span>.color = color;
+    }
+
+    <span class="token-comment">// Overridden print method</span>
+    <span class="token-keyword">public</span> <span class="token-keyword">void</span> <span class="token-method">print</span>(String doc) {
+        <span class="token-keyword">super</span>.<span class="token-method">print</span>(doc);
+        System.out.println(<span class="token-keyword">this</span>.color + <span class="token-string">" Color mode enabled"</span>);
+    }
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- 252 Q5 -->
+                <div class="question-accordion">
+                    <div class="question-header" onclick="toggleAccordion(this)">
+                        Q5: Shape, Rectangle, and Square Polymorphism
+                    </div>
+                    <div class="question-content">
+                        <p style="color: var(--text-bold);">Output of Tracing Statements:</p>
+                        <div class="trace-output">
+1: Shape<br>
+2: Rectangle<br>
+3: Square<br>
+4: Rectangle<br>
+5: ERROR, ClassCastException at runtime (escher is a Rectangle, cannot cast to Square)<br>
+6: Square
+                        </div>
+                        <h4 style="color: var(--primary); margin-top: 1.5rem;"><span class="solution-tag">Solution</span>(b) printTotalArea Method:</h4>
+                        <pre><code><span class="token-keyword">static</span> <span class="token-keyword">void</span> <span class="token-method">printTotalArea</span>(<span class="token-class">Shape</span>[] shapesArray) {
+    <span class="token-keyword">double</span> totalArea = <span class="token-number">0</span>;
+    <span class="token-keyword">for</span> (<span class="token-class">Shape</span> s : shapesArray) {
+        <span class="token-keyword">if</span> (s <span class="token-keyword">instanceof</span> <span class="token-class">Rectangle</span>) {
+            totalArea += ((<span class="token-class">Rectangle</span>) s).<span class="token-method">getArea</span>();
+        }
+    }
+    System.out.println(<span class="token-string">"Total Area is : "</span> + totalArea);
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FALL 2025 (253) TAB CONTENT -->
+        <div id="t253" class="tab-content">
+            <div class="card">
+                <h2 class="card-title">🍂 Fall 2025 Midterm Exam Solutions</h2>
+
+                <!-- 253 Q1 -->
+                <div class="question-accordion">
+                    <div class="question-header" onclick="toggleAccordion(this)">
+                        Q1: Jagged Student Arrays and Inputs
+                    </div>
+                    <div class="question-content">
+                        <p style="color: var(--text-muted); margin-bottom: 0.5rem;">
+                            Establish jagged student object mapping arrays and process inputs dynamically via console prompts using Java Scanner.
+                        </p>
+                        <h4 style="color: var(--primary); margin: 1rem 0 0.5rem;"><span class="solution-tag">Solution</span>Java Code:</h4>
+                        <pre><code><span class="token-comment">// Student Class Constructor</span>
+<span class="token-keyword">class</span> <span class="token-class">Student</span> {
+    String name;
+    <span class="token-keyword">int</span> id;
+    <span class="token-keyword">double</span> cgpa;
+    
+    <span class="token-class">Student</span>(String name, <span class="token-keyword">int</span> id, <span class="token-keyword">double</span> cgpa) {
+        <span class="token-keyword">this</span>.name = name;
+        <span class="token-keyword">this</span>.id = id;
+        <span class="token-keyword">this</span>.cgpa = cgpa;
+    }
+}
+
+<span class="token-comment">// Main Jagged Array Initialization</span>
+<span class="token-class">Student</span>[][] studentList = <span class="token-keyword">new</span> <span class="token-class">Student</span>[<span class="token-number">3</span>][];
+studentList[<span class="token-number">0</span>] = <span class="token-keyword">new</span> <span class="token-class">Student</span>[<span class="token-number">2</span>];
+studentList[<span class="token-number">1</span>] = <span class="token-keyword">new</span> <span class="token-class">Student</span>[<span class="token-number">1</span>];
+studentList[<span class="token-number">2</span>] = <span class="token-keyword">new</span> <span class="token-class">Student</span>[<span class="token-number">3</span>];
+
+<span class="token-comment">// Fetching dynamic inputs</span>
+<span class="token-keyword">for</span> (<span class="token-keyword">int</span> r = <span class="token-number">0</span>; r &lt; studentList.length; r++) {
+    <span class="token-keyword">for</span> (<span class="token-keyword">int</span> c = <span class="token-number">0</span>; c &lt; studentList[r].length; c++) {
+        String name = scn.next();
+        <span class="token-keyword">int</span> id = scn.nextInt();
+        <span class="token-keyword">double</span> cgpa = scn.nextDouble();
+        studentList[r][c] = <span class="token-keyword">new</span> <span class="token-class">Student</span>(name, id, cgpa);
+    }
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- 253 Q2 -->
+                <div class="question-accordion">
+                    <div class="question-header" onclick="toggleAccordion(this)">
+                        Q2: Class A & B Constructors, Static Blocks & Initializations
+                    </div>
+                    <div class="question-content">
+                        <p style="color: var(--text-muted); margin-bottom: 0.5rem;">
+                            Trace constructor overloading, this delegating execution flows, and static block orders.
+                        </p>
+                        <h4 style="color: var(--secondary); margin: 1rem 0 0.5rem;"><span class="solution-tag">Result</span>Console Output:</h4>
+                        <div class="trace-output">
+B: static block<br>
+---main---<br>
+B() - no arg<br>
+A: static block<br>
+A: instance block<br>
+A(int)<br>
+A(): no-arg<br>
+A - a=17, cnt=11<br>
+B - cnt=1<br>
+A: instance block<br>
+A(int)<br>
+A - a=5, cnt=12
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 253 Q3 -->
+                <div class="question-accordion">
+                    <div class="question-header" onclick="toggleAccordion(this)">
+                        Q3: Encapsulation & Final Attributes with Phone
+                    </div>
+                    <div class="question-content">
+                        <p style="color: var(--text-muted); margin-bottom: 0.5rem;">
+                            Correct compilation errors resulting from modification attempts to final attributes without modifying access specifiers.
+                        </p>
+                        <h4 style="color: var(--primary); margin: 1rem 0 0.5rem;"><span class="solution-tag">Solution</span>Java Code:</h4>
+                        <pre><code><span class="token-keyword">class</span> <span class="token-class">Phone</span> {
+    <span class="token-keyword">final</span> String company;
+    <span class="token-keyword">final</span> <span class="token-keyword">int</span> launch_year;
+    <span class="token-keyword">private</span> String chip;
+    <span class="token-keyword">double</span> price;
+    <span class="token-keyword">private</span> String imei_no;
+
+    <span class="token-keyword">public</span> <span class="token-class">Phone</span>(String company, <span class="token-keyword">int</span> launch_year, <span class="token-keyword">double</span> price) {
+        <span class="token-keyword">this</span>.company = company;
+        <span class="token-keyword">this</span>.launch_year = launch_year;
+        <span class="token-keyword">this</span>.price = price;
+    }
+
+    <span class="token-comment">// Mutators & Accessors maintaining private scopes</span>
+    <span class="token-keyword">public</span> <span class="token-keyword">void</span> <span class="token-method">setChip</span>(String chip) { <span class="token-keyword">this</span>.chip = chip; }
+    <span class="token-keyword">public</span> String <span class="token-method">getChip</span>() { <span class="token-keyword">return</span> <span class="token-keyword">this</span>.chip; }
+    
+    <span class="token-keyword">public</span> <span class="token-keyword">void</span> <span class="token-method">setImei_no</span>(String imei) { <span class="token-keyword">this</span>.imei_no = imei; }
+    <span class="token-keyword">public</span> String <span class="token-method">getImei_no</span>() { <span class="token-keyword">return</span> <span class="token-keyword">this</span>.imei_no; }
+}
+
+<span class="token-keyword">public</span> <span class="token-keyword">class</span> <span class="token-class">PhoneInfo</span> {
+    <span class="token-keyword">public</span> <span class="token-keyword">static</span> <span class="token-keyword">void</span> <span class="token-method">main</span>(String[] args) {
+        <span class="token-class">Phone</span> phone = <span class="token-keyword">new</span> <span class="token-class">Phone</span>(<span class="token-string">"Samsung"</span>, <span class="token-number">2024</span>, <span class="token-number">35000</span>);
+        <span class="token-comment">// phone.setCompany("Apple"); // ERROR: company is final</span>
+        phone.<span class="token-method">setChip</span>(<span class="token-string">"Qualcom snapdragon"</span>);
+        phone.price = <span class="token-number">45000</span>;
+        phone.<span class="token-method">setImei_no</span>(<span class="token-string">"54654684"</span>);
+        
+        System.out.println(phone.company + <span class="token-string">" "</span> + phone.launch_year + <span class="token-string">" "</span> + 
+                           phone.<span class="token-method">getChip</span>() + <span class="token-string">" "</span> + phone.price + <span class="token-string">" "</span> + 
+                           phone.<span class="token-method">getImei_no</span>());
+    }
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- 253 Q4 -->
+                <div class="question-accordion">
+                    <div class="question-header" onclick="toggleAccordion(this)">
+                        Q4: Product -> Toiletries -> Shampoo / Soap Hierarchy
+                    </div>
+                    <div class="question-content">
+                        <p style="color: var(--text-muted); margin-bottom: 0.5rem;">
+                            Implement the multilevel inheritance class diagram mapping Products, Toiletries, Soap, and Shampoo.
+                        </p>
+                        <h4 style="color: var(--primary); margin: 1rem 0 0.5rem;"><span class="solution-tag">Solution</span>Java Code:</h4>
+                        <pre><code><span class="token-keyword">class</span> <span class="token-class">Product</span> {
+    <span class="token-keyword">private</span> String name;
+    <span class="token-keyword">private</span> <span class="token-keyword">int</span> code;
+    <span class="token-keyword">private</span> <span class="token-keyword">double</span> price;
+
+    <span class="token-keyword">public</span> <span class="token-class">Product</span>(String name, <span class="token-keyword">double</span> price, <span class="token-keyword">int</span> code) {
+        <span class="token-keyword">this</span>.name = name;
+        <span class="token-keyword">this</span>.price = price;
+        <span class="token-keyword">this</span>.code = code;
+    }
+
+    <span class="token-keyword">public</span> <span class="token-keyword">final</span> <span class="token-keyword">int</span> <span class="token-method">getCode</span>() { <span class="token-keyword">return</span> <span class="token-keyword">this</span>.code; }
+    <span class="token-keyword">public</span> <span class="token-keyword">void</span> <span class="token-method">show</span>() {
+        System.out.println(<span class="token-string">"Name: "</span> + name + <span class="token-string">" Price: "</span> + price);
+    }
+}
+
+<span class="token-keyword">class</span> <span class="token-class">Toiletries</span> <span class="token-keyword">extends</span> <span class="token-class">Product</span> {
+    <span class="token-keyword">private</span> String expiry_date;
+
+    <span class="token-keyword">public</span> <span class="token-class">Toiletries</span>(String name, <span class="token-keyword">double</span> price, <span class="token-keyword">int</span> code, String expiry) {
+        <span class="token-keyword">super</span>(name, price, code);
+        <span class="token-keyword">this</span>.expiry_date = expiry;
+    }
+
+    <span class="token-keyword">public</span> <span class="token-keyword">void</span> <span class="token-method">show</span>() {
+        <span class="token-keyword">super</span>.<span class="token-method">show</span>();
+        System.out.println(<span class="token-string">"Expiry Date "</span> + expiry_date);
+    }
+}
+
+<span class="token-keyword">class</span> <span class="token-class">Shampoo</span> <span class="token-keyword">extends</span> <span class="token-class">Toiletries</span> {
+    <span class="token-keyword">private</span> String hair_type;
+
+    <span class="token-keyword">public</span> <span class="token-class">Shampoo</span>(String name, <span class="token-keyword">double</span> price, <span class="token-keyword">int</span> code, String expiry, String hair_type) {
+        <span class="token-keyword">super</span>(name, price, code, expiry);
+        <span class="token-keyword">this</span>.hair_type = hair_type;
+    }
+
+    <span class="token-keyword">public</span> <span class="token-keyword">void</span> <span class="token-method">show</span>() {
+        <span class="token-keyword">super</span>.<span class="token-method">show</span>();
+        System.out.println(<span class="token-string">"Hair Type: "</span> + hair_type);
+    }
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SPRING 2026 (261) TAB CONTENT -->
+        <div id="t261" class="tab-content">
+            <div class="card">
+                <h2 class="card-title">🌸 Spring 2026 Midterm Exam Solutions</h2>
+
+                <!-- 261 Q1 -->
+                <div class="question-accordion">
+                    <div class="question-header" onclick="toggleAccordion(this)">
+                        Q1: Asset & Trader Financial System
+                    </div>
+                    <div class="question-content">
+                        <p style="color: var(--text-muted); margin-bottom: 0.5rem;">
+                            Design class assets and traders processing validation, pricing mutations, automated unique IDs, and matching allocations.
+                        </p>
+                        <h4 style="color: var(--primary); margin: 1rem 0 0.5rem;"><span class="solution-tag">Solution</span>Java Code:</h4>
+                        <pre><code><span class="token-keyword">class</span> <span class="token-class">Asset</span> {
+    String assetType;
+    <span class="token-keyword">private</span> <span class="token-keyword">float</span> price;
+    <span class="token-keyword">int</span> id;
+    String tradersName = <span class="token-string">""</span>;
+    <span class="token-keyword">static</span> <span class="token-keyword">int</span> id_counter = <span class="token-number">1001</span>;
+
+    <span class="token-class">Asset</span>(String assetType, <span class="token-keyword">float</span> price) {
+        <span class="token-keyword">if</span>(assetType.equals(<span class="token-string">"Bond"</span>) || assetType.equals(<span class="token-string">"Stock"</span>))
+            <span class="token-keyword">this</span>.assetType = assetType;
+        setPrice(price);
+        id = id_counter;
+        id_counter++;
+    }
+
+    <span class="token-keyword">public</span> <span class="token-keyword">float</span> <span class="token-method">getPrice</span>() { <span class="token-keyword">return</span> price; }
+    <span class="token-keyword">public</span> <span class="token-keyword">void</span> <span class="token-method">setPrice</span>(<span class="token-keyword">float</span> price) {
+        <span class="token-keyword">if</span>(price &gt;= <span class="token-number">0</span>) <span class="token-keyword">this</span>.price = price;
+    }
+}
+
+<span class="token-keyword">class</span> <span class="token-class">Trader</span> {
+    String name;
+    String department = <span class="token-string">"Bond"</span>;
+    <span class="token-keyword">float</span> aum = <span class="token-number">0.0f</span>;
+
+    <span class="token-class">Trader</span>(String name, String dept) {
+        <span class="token-keyword">this</span>.name = name;
+        <span class="token-keyword">this</span>.department = dept;
+    }
+
+    <span class="token-class">Trader</span>(String name) { <span class="token-keyword">this</span>.name = name; }
+
+    <span class="token-keyword">public</span> <span class="token-keyword">void</span> <span class="token-method">assign</span>(<span class="token-class">Asset</span> asset) {
+        <span class="token-keyword">if</span>(asset.assetType != <span class="token-keyword">null</span> &amp;&amp; asset.assetType.equals(<span class="token-keyword">this</span>.department)) {
+            aum += asset.getPrice();
+            asset.tradersName = <span class="token-keyword">this</span>.name;
+        } <span class="token-keyword">else</span> {
+            System.out.println(<span class="token-string">"Department Mismatch"</span>);
+        }
+    }
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- 261 Q2 -->
+                <div class="question-accordion">
+                    <div class="question-header" onclick="toggleAccordion(this)">
+                        Q2: Animal & Dog Constructor Chain
+                    </div>
+                    <div class="question-content">
+                        <p style="color: var(--text-muted); margin-bottom: 0.5rem;">
+                            Complete constructor definitions calling base classes and overriding details.
+                        </p>
+                        <h4 style="color: var(--primary); margin: 1rem 0 0.5rem;"><span class="solution-tag">Solution</span>Java Code:</h4>
+                        <pre><code><span class="token-keyword">class</span> <span class="token-class">Animal</span> {
+    String name;
+    <span class="token-keyword">int</span> age;
+    
+    <span class="token-class">Animal</span>(String name, <span class="token-keyword">int</span> age) {
+        <span class="token-keyword">this</span>.name = name;
+        <span class="token-keyword">this</span>.age = age;
+    }
+    
+    <span class="token-keyword">void</span> <span class="token-method">makeSound</span>() { System.out.println(<span class="token-string">"Animal makes a sound"</span>); }
+    String <span class="token-method">getInfo</span>() { <span class="token-keyword">return</span> <span class="token-string">"Name: "</span> + name + <span class="token-string">", Age: "</span> + age; }
+}
+
+<span class="token-keyword">class</span> <span class="token-class">Dog</span> <span class="token-keyword">extends</span> <span class="token-class">Animal</span> {
+    <span class="token-class">Dog</span>(String name, <span class="token-keyword">int</span> age) { <span class="token-keyword">super</span>(name, age); }
+    
+    <span class="token-keyword">void</span> <span class="token-method">makeSound</span>() { System.out.println(name + <span class="token-string">" barks"</span>); }
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- 261 Q3 -->
+                <div class="question-accordion">
+                    <div class="question-header" onclick="toggleAccordion(this)">
+                        Q3: Static and Instance Block Outputs Tracing
+                    </div>
+                    <div class="question-content">
+                        <p style="color: var(--text-muted); margin-bottom: 0.5rem;">
+                            Trace calculations mapping incremental counters and static allocations.
+                        </p>
+                        <h4 style="color: var(--secondary); margin: 1rem 0 0.5rem;"><span class="solution-tag">Result</span>Console Output:</h4>
+                        <div class="trace-output">
+Static Block<br>
+Instance Block<br>
+Constructor<br>
+Instance Block<br>
+Constructor<br>
+t1-count = 28, t1-id = 13<br>
+t2-count = 28, t2-id = 16<br>
+t3-count = 28, t3-id = 13
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 261 Q4 -->
+                <div class="question-accordion">
+                    <div class="question-header" onclick="toggleAccordion(this)">
+                        Q4: Employee solving problems polymorphic casting
+                    </div>
+                    <div class="question-content">
+                        <p style="color: var(--text-muted); margin-bottom: 0.5rem;">
+                            Complete Main invoking solveProblem with arrays of Manager/Engineers.
+                        </p>
+                        <h4 style="color: var(--primary); margin: 1rem 0 0.5rem;"><span class="solution-tag">Solution</span>Java Code:</h4>
+                        <pre><code><span class="token-keyword">public</span> <span class="token-keyword">static</span> <span class="token-keyword">void</span> <span class="token-method">main</span>(String[] args) {
+    <span class="token-class">Employee</span>[] employeeList = <span class="token-keyword">new</span> <span class="token-class">Employee</span>[<span class="token-number">2</span>];
+    
+    <span class="token-class">Manager</span> mgr = <span class="token-keyword">new</span> <span class="token-class">Manager</span>();
+    mgr.<span class="token-method">assignProblem</span>(<span class="token-string">"Budget planning issue"</span>);
+    employeeList[<span class="token-number">0</span>] = mgr;
+    
+    <span class="token-class">Engineer</span> eng = <span class="token-keyword">new</span> <span class="token-class">Engineer</span>();
+    eng.<span class="token-method">assignProblem</span>(<span class="token-string">"Server bug"</span>);
+    employeeList[<span class="token-number">1</span>] = eng;
+    
+    <span class="token-method">solveProblem</span>(employeeList);
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        function switchTrimester(trimesterId) {
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            const targetContent = document.getElementById(trimesterId);
+            if(targetContent) {
+                targetContent.classList.add('active');
+            }
+            
+            const targetBtn = Array.from(document.querySelectorAll('.tab-btn')).find(btn => btn.innerText.includes(trimesterId.substring(1)));
+            if(targetBtn) {
+                targetBtn.classList.add('active');
+            }
+        }
+
+        function toggleAccordion(header) {
+            const accordion = header.parentElement;
+            accordion.classList.toggle('open');
+        }
+    </script>
+</body>
+</html>
