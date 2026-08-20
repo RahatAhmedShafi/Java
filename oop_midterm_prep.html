@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UIU CSE1115: OOP Midterm Prep Hub</title>
+    <meta name="description" content="Interactive Midterm Exam Preparation web application for Object-Oriented Programming (Java) at UIU.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-base: #0b0f19;
+            --bg-surface: #1e293b;
+            --bg-card: rgba(30, 41, 59, 0.7);
+            --primary: #38bdf8;
+            --primary-glow: rgba(56, 189, 248, 0.15);
+            --secondary: #a855f7;
+            --secondary-glow: rgba(168, 85, 247, 0.15);
+            --accent: #f43f5e;
+            --success: #10b981;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-glow: rgba(255, 255, 255, 0.08);
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            font-family: 'Outfit', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(168, 85, 247, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(56, 189, 248, 0.15) 0px, transparent 50%);
+            background-attachment: fixed;
+        }
+
+        header {
+            padding: 2.5rem 2rem 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-glow);
+        }
+
+        .header-title h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        .header-title p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-top: 0.25rem;
+        }
+
+        .badge {
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(168, 85, 247, 0.2));
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            color: var(--primary);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem 5rem;
+        }
+
+        /* Navigation Tabs */
+        .tabs {
+            display: flex;
+            gap: 0.75rem;
+            background: rgba(30, 41, 59, 0.4);
+            padding: 0.5rem;
+            border-radius: 16px;
+            border: 1px solid var(--border-glow);
+            backdrop-filter: blur(10px);
+            margin-bottom: 2.5rem;
+            overflow-x: auto;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 0.8rem 1.5rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .tab-btn.active {
+            color: var(--bg-base);
+            background: var(--primary);
+            box-shadow: 0 4px 20px var(--primary-glow);
+        }
+
+        /* Content Sections */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Dashboard Overview Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 900px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glow);
+            border-radius: 20px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: var(--transition-smooth);
+            margin-bottom: 2rem;
+        }
+
+        .card:hover {
+            border-color: rgba(56, 189, 248, 0.3);
+            box-shadow: 0 15px 40px rgba(56, 189, 248, 0.08);
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--primary);
+            border-bottom: 1px solid var(--border-glow);
+            padding-bottom: 0.75rem;
+        }
+
+        .topic-list {
+            list-style: none;
+        }
+
+        .topic-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 12px;
+            margin-bottom: 0.75rem;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            transition: var(--transition-smooth);
+        }
+
+        .topic-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateX(5px);
+        }
+
+        .topic-info h4 {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .topic-info p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 0.15rem;
+        }
+
+        .topic-status {
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--success);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .topic-status.important {
+            background: rgba(244, 63, 94, 0.15);
+            color: var(--accent);
+            border: 1px solid rgba(244, 63, 94, 0.2);
+        }
+
+        /* Tips Card */
+        .tip-box {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.05), rgba(56, 189, 248, 0.05));
+            border-left: 4px solid var(--secondary);
+            padding: 1.25rem;
+            border-radius: 0 16px 16px 0;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .tip-box strong {
+            color: var(--secondary);
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        /* Code Block Design */
+        pre {
+            background: #0f172a !important;
+            padding: 1.25rem;
+            border-radius: 12px;
+            overflow-x: auto;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin: 1rem 0;
+        }
+
+        code {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            color: #e2e8f0;
+        }
+
+        .token-keyword { color: #f472b6; font-weight: bold; }
+        .token-class { color: #38bdf8; font-weight: bold; }
+        .token-method { color: #fbbf24; }
+        .token-comment { color: #64748b; font-style: italic; }
+        .token-string { color: #34d399; }
+        .token-number { color: #fb7185; }
+
+        /* Accordion style for Q&A */
+        .accordion-item {
+            border: 1px solid var(--border-glow);
+            background: rgba(30, 41, 59, 0.4);
+            border-radius: 14px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            transition: var(--transition-smooth);
+        }
+
+        .accordion-item:hover {
+            border-color: rgba(168, 85, 247, 0.3);
+        }
+
+        .accordion-header {
+            padding: 1.25rem 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 1.05rem;
+            background: rgba(255, 255, 255, 0.01);
+            user-select: none;
+            transition: var(--transition-smooth);
+        }
+
+        .accordion-header:hover {
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--primary);
+        }
+
+        .accordion-header::after {
+            content: '+';
+            font-size: 1.3rem;
+            color: var(--text-muted);
+            transition: var(--transition-smooth);
+        }
+
+        .accordion-item.open .accordion-header::after {
+            content: '−';
+            transform: rotate(180deg);
+            color: var(--primary);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+            padding: 0 1.5rem;
+            background: rgba(15, 23, 42, 0.2);
+        }
+
+        .accordion-item.open .accordion-content {
+            max-height: 2500px;
+            padding: 1.5rem;
+            border-top: 1px solid var(--border-glow);
+        }
+
+        /* Tracing Practice Simulator */
+        .tracing-box {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        @media (max-width: 850px) {
+            .tracing-box {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .tracing-code {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .tracing-interactive {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid var(--border-glow);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .input-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .tracing-input {
+            width: 100%;
+            background: rgba(11, 15, 25, 0.8);
+            border: 1px solid var(--border-glow);
+            border-radius: 8px;
+            padding: 0.8rem;
+            color: var(--text-main);
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            resize: vertical;
+            min-height: 120px;
+            transition: var(--transition-smooth);
+        }
+
+        .tracing-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.15);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border: none;
+            color: var(--bg-base);
+            font-weight: 700;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(168, 85, 247, 0.3);
+        }
+
+        .feedback-box {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            display: none;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .feedback-box.correct {
+            display: block;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            color: #34d399;
+        }
+
+        .feedback-box.incorrect {
+            display: block;
+            background: rgba(244, 63, 94, 0.1);
+            border: 1px solid rgba(244, 63, 94, 0.2);
+            color: #f87171;
+        }
+
+        /* Flashcard Flips */
+        .flashcards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .flashcard {
+            perspective: 1000px;
+            height: 200px;
+            cursor: pointer;
+        }
+
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .flashcard.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 16px;
+            border: 1px solid var(--border-glow);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-front {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.9));
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 1.15rem;
+        }
+
+        .card-back {
+            background: linear-gradient(135deg, var(--bg-surface), #0f172a);
+            color: var(--text-main);
+            transform: rotateY(180deg);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            font-weight: 400;
+        }
+
+        .concept-note {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 12px;
+            padding: 1rem;
+            margin: 0.75rem 0;
+        }
+
+        .concept-note h4 {
+            color: var(--primary);
+            margin-bottom: 0.4rem;
+            font-size: 1rem;
+        }
+
+        .highlight-text {
+            color: var(--secondary);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-title">
+            <h1>CSE1115: Object-Oriented Programming</h1>
+            <p>UIU Midterm Interactive Prep Hub • Direct Field Access Alignment</p>
+        </div>
+        <div class="badge">Midterm Ready</div>
+    </header>
+
+    <main>
+        <!-- Nav Tabs -->
+        <div class="tabs" role="tablist">
+            <button class="tab-btn active" onclick="switchTab('dashboard')" role="tab" aria-selected="true">
+                🏠 Dashboard
+            </button>
+            <button class="tab-btn" onclick="switchTab('concepts')" role="tab" aria-selected="false">
+                📖 Core Concepts
+            </button>
+            <button class="tab-btn" onclick="switchTab('tracing')" role="tab" aria-selected="false">
+                💻 Output Tracing
+            </button>
+            <button class="tab-btn" onclick="switchTab('qa')" role="tab" aria-selected="false">
+                📝 Q&A Bank
+            </button>
+            <button class="tab-btn" onclick="switchTab('flashcards')" role="tab" aria-selected="false">
+                ⚡ Flashcards
+            </button>
+        </div>
+
+        <!-- DASHBOARD TAB -->
+        <div id="dashboard" class="tab-content active" role="tabpanel">
+            <div class="dashboard-grid">
+                <div>
+                    <div class="card">
+                        <h2 class="card-title">🎯 Midterm Exam Syllabus Coverage</h2>
+                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">
+                            Your midterm features the <strong>Direct Field Access Style</strong> (meaning fields are accessed directly e.g. <code>p.x</code>, without standard private encapsulation/getters/setters, unless specified).
+                        </p>
+                        <div class="topic-list">
+                            <div class="topic-item">
+                                <div class="topic-info">
+                                    <h4>Classes & Objects Instantiation</h4>
+                                    <p>Declaring references, initializing on Heap with 'new', default values.</p>
+                                </div>
+                                <span class="topic-status">Core</span>
+                            </div>
+                            <div class="topic-item">
+                                <div class="topic-info">
+                                    <h4>Shadowing & 'this' Keyword</h4>
+                                    <p>Constructor arguments blocking class instance variables; resolving shadowing.</p>
+                                </div>
+                                <span class="topic-status">Core</span>
+                            </div>
+                            <div class="topic-item">
+                                <div class="topic-info">
+                                    <h4>Static vs. Instance Variable Tracing</h4>
+                                    <p>Shared class-level variables vs independent object-level states.</p>
+                                </div>
+                                <span class="topic-status important">Exam Favorite</span>
+                            </div>
+                            <div class="topic-item">
+                                <div class="topic-info">
+                                    <h4>Composition (Geometric Overlaps)</h4>
+                                    <p>Points, Lines, Circles, Rectangles, and Flags containment mathematics in Java.</p>
+                                </div>
+                                <span class="topic-status important">Practical Q</span>
+                            </div>
+                            <div class="topic-item">
+                                <div class="topic-info">
+                                    <h4>Inheritance & Overriding (super Keyword)</h4>
+                                    <p>Constructor chaining, super constructor calls, method overrides, final restrictions.</p>
+                                </div>
+                                <span class="topic-status">Core</span>
+                            </div>
+                            <div class="topic-item">
+                                <div class="topic-info">
+                                    <h4>Polymorphism & Downcasting</h4>
+                                    <p>Arrays of base-class objects, checking dynamic subclass objects, explicit casting.</p>
+                                </div>
+                                <span class="topic-status important">Advanced</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="card" style="height: fit-content;">
+                        <h2 class="card-title">💡 High Score Tips</h2>
+                        <div class="tip-box">
+                            <strong>1. Floating Point Compares</strong>
+                            Avoid <code>==</code> for comparing double/float values. Use tolerance limits: <code>Math.abs(a - b) &lt; 1e-5</code>.
+                        </div>
+                        <div class="tip-box">
+                            <strong>2. Constructor Return Types</strong>
+                            A constructor <em>must not</em> have a return type, not even <code>void</code>. Placing a return type makes it a standard method!
+                        </div>
+                        <div class="tip-box">
+                            <strong>3. Static Restrictions</strong>
+                            Static contexts (like static methods) cannot access non-static fields (like <code>this.x</code>) directly without instantiating an object first.
+                        </div>
+                        <div class="tip-box">
+                            <strong>4. Subclass Constructor Chain</strong>
+                            A subclass constructor calls its superclass constructor implicitly (via default constructor call) unless you invoke <code>super(...)</code> explicitly.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CORE CONCEPTS TAB -->
+        <div id="concepts" class="tab-content" role="tabpanel">
+            <div class="card">
+                <h2 class="card-title">📘 Classes, Objects, and Variables</h2>
+                <p>When an object is declared, memory is not occupied. Instantiation allocates memory on Heap.</p>
+                <div class="concept-note">
+                    <h4>Direct Access Style (UIU Preferred Midterm Style)</h4>
+                    <p>In direct access style, class fields do not have access modifiers like <code>private</code> or <code>public</code>. You manipulate them directly:</p>
+                    <pre><code><span class="token-keyword">class</span> <span class="token-class">Point</span> {
+    <span class="token-keyword">int</span> x;
+    <span class="token-keyword">int</span> y;
+    
+    <span class="token-class">Point</span>(<span class="token-keyword">int</span> x, <span class="token-keyword">int</span> y) {
+        <span class="token-keyword">this</span>.x = x; <span class="token-comment">// Resolves local parameter shadowing</span>
+        <span class="token-keyword">this</span>.y = y;
+    }
+}</code></pre>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2 class="card-title">🧬 Static vs. Instance Members</h2>
+                <ul>
+                    <li><strong>Instance Variables:</strong> Individual copies for each object. Allocated during instantiation.</li>
+                    <li><strong>Static Variables:</strong> Single copy shared by all instances of the class. Loaded once, accessible via class name.</li>
+                </ul>
+                <pre><code><span class="token-keyword">class</span> <span class="token-class">Counter</span> {
+    <span class="token-keyword">int</span> count = <span class="token-number">0</span>;
+    <span class="token-keyword">static</span> <span class="token-keyword">int</span> staticCount = <span class="token-number">0</span>;
+    
+    <span class="token-class">Counter</span>() {
+        count++;        <span class="token-comment">// Changes only local instance variable</span>
+        staticCount++;  <span class="token-comment">// Changes shared static variable across all objects</span>
+    }
+}</code></pre>
+            </div>
+
+            <div class="card">
+                <h2 class="card-title">📐 Composition & Containment (Geometric Math)</h2>
+                <p>Composition nests an object within another class. Let's study how shape overlapping/containment is coded:</p>
+                <div class="concept-note">
+                    <h4>1. Circle inside Circle</h4>
+                    <p>For Circle A to reside entirely inside Circle B, the distance between their center points plus A's radius must be less than or equal to B's radius.</p>
+                    <pre><code><span class="token-keyword">boolean</span> <span class="token-method">circleInsideCircle</span>(<span class="token-class">Circle</span> C) {
+    <span class="token-keyword">double</span> centerDist = <span class="token-keyword">this</span>.center.<span class="token-method">distance</span>(C.center);
+    <span class="token-keyword">return</span> (centerDist + C.radius) &lt;= <span class="token-keyword">this</span>.radius;
+}</code></pre>
+                </div>
+                <div class="concept-note">
+                    <h4>2. Circle inside Rectangle</h4>
+                    <p>Calculate the bounding limits of the circle (left, right, bottom, top) and check if they fit inside the Rectangle's bottomLeft and topRight boundaries.</p>
+                    <pre><code><span class="token-keyword">boolean</span> <span class="token-method">circleInsideRectangle</span>(<span class="token-class">Circle</span> C) {
+    <span class="token-keyword">double</span> left = C.center.x - C.radius;
+    <span class="token-keyword">double</span> right = C.center.x + C.radius;
+    <span class="token-keyword">double</span> bottom = C.center.y - C.radius;
+    <span class="token-keyword">double</span> top = C.center.y + C.radius;
+    
+    <span class="token-keyword">return</span> left &gt;= <span class="token-keyword">this</span>.bottomLeft.x &amp;&amp; 
+           right &lt;= <span class="token-keyword">this</span>.topRight.x &amp;&amp; 
+           bottom &gt;= <span class="token-keyword">this</span>.bottomLeft.y &amp;&amp; 
+           top &lt;= <span class="token-keyword">this</span>.topRight.y;
+}</code></pre>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2 class="card-title">🐾 Inheritance & Polymorphism</h2>
+                <div class="concept-note">
+                    <h4>Constructor Chaining</h4>
+                    <p>Subclass constructors must invoke <code>super(...)</code> first. If not done explicitly, Java automatically places a call to <code>super()</code> (no-args constructor).</p>
+                </div>
+                <div class="concept-note">
+                    <h4>Downcasting & Polymorphism</h4>
+                    <p>A reference variable of type Parent can refer to a Child object. To use specific child methods, downcast explicitly:</p>
+                    <pre><code><span class="token-class">FoodItem</span> x = <span class="token-keyword">new</span> <span class="token-class">Fish</span>(<span class="token-string">"Hilsha"</span>);
+((<span class="token-class">Fish</span>) x).<span class="token-method">setparameter</span>(); <span class="token-comment">// Downcasting syntax</span></code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- INTERACTIVE TRACING TAB -->
+        <div id="tracing" class="tab-content" role="tabpanel">
+            <!-- TRACE 1 -->
+            <div class="card">
+                <h2 class="card-title">💻 Trace Challenge 1: Static Variable Progression</h2>
+                <p style="color: var(--text-muted);">Predict the output. Write each printed line on a new line.</p>
+                <div class="tracing-box">
+                    <div class="tracing-code">
+                        <pre><code><span class="token-keyword">class</span> <span class="token-class">Point</span> {
+    <span class="token-keyword">int</span> x, y;
+    <span class="token-keyword">static</span> <span class="token-keyword">int</span> s;
+    <span class="token-class">Point</span>(<span class="token-keyword">int</span> a, <span class="token-keyword">int</span> b) {
+        x = a;
+        y = b;
+        System.out.println(<span class="token-string">"hello"</span>);
+    }
+}
+<span class="token-keyword">public</span> <span class="token-keyword">class</span> <span class="token-class">Main</span> {
+    <span class="token-keyword">public</span> <span class="token-keyword">static</span> <span class="token-keyword">void</span> <span class="token-method">main</span>(String[] args) {
+        <span class="token-class">Point</span> p1 = <span class="token-keyword">new</span> <span class="token-class">Point</span>(<span class="token-number">1</span>, <span class="token-number">2</span>);
+        <span class="token-class">Point</span> p2 = <span class="token-keyword">new</span> <span class="token-class">Point</span>(<span class="token-number">10</span>, <span class="token-number">10</span>);
+        System.out.println(p1.x);
+        System.out.println(p2.x);
+        System.out.println(p1.s);
+        p1.s = <span class="token-number">5</span>;
+        System.out.println(p2.s);
+        <span class="token-class">Point</span>.s = <span class="token-number">7</span>;
+        System.out.println(p1.s);
+        System.out.println(p1.x);
+    }
+}</code></pre>
+                    </div>
+                    <div class="tracing-interactive">
+                        <div class="input-group">
+                            <label for="trace1-input">Your Console Output Prediction:</label>
+                            <textarea id="trace1-input" class="tracing-input" placeholder="Type lines of output here..."></textarea>
+                        </div>
+                        <div>
+                            <button class="btn" onclick="checkTrace(1)">Check Answer</button>
+                            <div id="trace1-feedback" class="feedback-box"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TRACE 2 -->
+            <div class="card">
+                <h2 class="card-title">💻 Trace Challenge 2: Instance Modifications</h2>
+                <p style="color: var(--text-muted);">Predict the output of the shifted counts.</p>
+                <div class="tracing-box">
+                    <div class="tracing-code">
+                        <pre><code><span class="token-keyword">class</span> <span class="token-class">Test</span> {
+    <span class="token-keyword">int</span> data = <span class="token-number">10</span>;
+    <span class="token-keyword">static</span> <span class="token-keyword">int</span> count = <span class="token-number">50</span>;
+    <span class="token-class">Test</span>(<span class="token-keyword">int</span> d) {
+        data = d;
+        count += d;
+    }
+    <span class="token-keyword">void</span> <span class="token-method">shift</span>(<span class="token-class">Test</span> other) {
+        <span class="token-keyword">this</span>.data = other.data + <span class="token-number">10</span>;
+        count += <span class="token-keyword">this</span>.data;
+    }
+}
+<span class="token-comment">// Main thread calls:</span>
+<span class="token-class">Test</span> t1 = <span class="token-keyword">new</span> <span class="token-class">Test</span>(<span class="token-number">5</span>);
+<span class="token-class">Test</span> t2 = <span class="token-keyword">new</span> <span class="token-class">Test</span>(<span class="token-number">15</span>);
+t1.<span class="token-method">shift</span>(t2);
+System.out.println(t1.data);
+System.out.println(t2.data);
+System.out.println(<span class="token-class">Test</span>.count);</code></pre>
+                    </div>
+                    <div class="tracing-interactive">
+                        <div class="input-group">
+                            <label for="trace2-input">Your Console Output Prediction:</label>
+                            <textarea id="trace2-input" class="tracing-input" placeholder="Type lines of output here..."></textarea>
+                        </div>
+                        <div>
+                            <button class="btn" onclick="checkTrace(2)">Check Answer</button>
+                            <div id="trace2-feedback" class="feedback-box"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Q&A BANK TAB -->
+        <div id="qa" class="tab-content" role="tabpanel">
+            <h2 style="font-size: 1.6rem; font-weight: 800; margin-bottom: 1.5rem; color: var(--primary);">📝 Previous Exam Questions Solver</h2>
+
+            <!-- Question 1: Asset and Trader -->
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    Q1: Traders & Asset Validation Scenario (Midterm Design Question)
+                </div>
+                <div class="accordion-content">
+                    <p style="margin-bottom: 1rem; color: var(--text-muted);">
+                        Create an <code>Asset</code> class representing Stock/Bonds, allocating unique serial IDs via a static counter. Create a <code>Trader</code> class that registers traders and executes automated matching logic matching asset categories with departmental allocations.
+                    </p>
+                    <h4 style="color: var(--primary); margin-bottom: 0.5rem;">Java Implementation:</h4>
+                    <pre><code><span class="token-keyword">class</span> <span class="token-class">Asset</span> {
+    String assetType;
+    <span class="token-keyword">private</span> <span class="token-keyword">float</span> price;
+    <span class="token-keyword">int</span> id;
+    <span class="token-keyword">static</span> <span class="token-keyword">int</span> id_counter = <span class="token-number">1001</span>;
+
+    <span class="token-class">Asset</span>(String assetType, <span class="token-keyword">float</span> price) {
+        <span class="token-keyword">if</span>(assetType.equals(<span class="token-string">"Bond"</span>) || assetType.equals(<span class="token-string">"Stock"</span>))
+            <span class="token-keyword">this</span>.assetType = assetType;
+        setPrice(price);
+        id = id_counter;
+        id_counter++;
+    }
+
+    <span class="token-keyword">public</span> <span class="token-keyword">void</span> <span class="token-method">setPrice</span>(<span class="token-keyword">float</span> price) {
+        <span class="token-keyword">if</span>(price &gt;= <span class="token-number">0</span>)
+            <span class="token-keyword">this</span>.price = price;
+    }
+    
+    <span class="token-keyword">public</span> <span class="token-keyword">float</span> <span class="token-method">getPrice</span>() { <span class="token-keyword">return</span> <span class="token-keyword">this</span>.price; }
+}
+
+<span class="token-keyword">class</span> <span class="token-class">Trader</span> {
+    String name;
+    String department = <span class="token-string">"Bond"</span>;
+    <span class="token-keyword">float</span> aum = <span class="token-number">0.0f</span>;
+
+    <span class="token-class">Trader</span>(String name, String department) {
+        <span class="token-keyword">this</span>.name = name;
+        <span class="token-keyword">this</span>.department = department;
+    }
+    
+    <span class="token-class">Trader</span>(String name) {
+        <span class="token-keyword">this</span>.name = name;
+    }
+
+    <span class="token-keyword">public</span> <span class="token-keyword">void</span> <span class="token-method">assign</span>(<span class="token-class">Asset</span> asset) {
+        <span class="token-keyword">if</span>(asset.assetType != <span class="token-keyword">null</span> &amp;&amp; asset.assetType.equals(<span class="token-keyword">this</span>.department)) {
+            aum += asset.getPrice();
+        } <span class="token-keyword">else</span> {
+            System.out.println(<span class="token-string">"Department Mismatch"</span>);
+        }
+    }
+}</code></pre>
+                    <h4 style="color: var(--secondary); margin-top: 1rem; margin-bottom: 0.5rem;">Key Takeaways:</h4>
+                    <p>Encapsulated variables (like <code>price</code>) must be updated inside the constructor using the corresponding mutator method (<code>setPrice(price)</code>) so that validation is not bypassed.</p>
+                </div>
+            </div>
+
+            <!-- Question 2: Point2D & Point3D -->
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    Q2: Point2D & Point3D Coordinate Extension (Spring 24 Q1)
+                </div>
+                <div class="accordion-content">
+                    <p style="margin-bottom: 1rem; color: var(--text-muted);">
+                        Implement simple inheritance demonstrating construction chaining, coordinate mapping, and display overrides using <code>super</code> calls.
+                    </p>
+                    <pre><code><span class="token-keyword">class</span> <span class="token-class">Point2D</span> {
+    <span class="token-keyword">int</span> x, y;
+    
+    <span class="token-keyword">public</span> <span class="token-class">Point2D</span>(<span class="token-keyword">int</span> x, <span class="token-keyword">int</span> y) {
+        <span class="token-keyword">this</span>.x = x;
+        <span class="token-keyword">this</span>.y = y;
+        System.out.println(<span class="token-string">"Point2D constructor"</span>);
+    }
+    
+    <span class="token-keyword">public</span> String <span class="token-method">Display</span>() {
+        <span class="token-keyword">return</span> <span class="token-string">"x = "</span> + x + <span class="token-string">", y = "</span> + y;
+    }
+}
+
+<span class="token-keyword">class</span> <span class="token-class">Point3D</span> <span class="token-keyword">extends</span> <span class="token-class">Point2D</span> {
+    <span class="token-keyword">int</span> z;
+    
+    <span class="token-class">Point3D</span>(<span class="token-keyword">int</span> x, <span class="token-keyword">int</span> y, <span class="token-keyword">int</span> z) {
+        <span class="token-keyword">super</span>(x, y); <span class="token-comment">// Explicit parent call</span>
+        <span class="token-keyword">this</span>.z = z;
+        System.out.println(<span class="token-string">"Point3D constructor"</span>);
+    }
+    
+    <span class="token-keyword">public</span> String <span class="token-method">Display</span>() {
+        <span class="token-keyword">return</span> <span class="token-keyword">super</span>.<span class="token-method">Display</span>() + <span class="token-string">", z = "</span> + z;
+    }
+}</code></pre>
+                </div>
+            </div>
+
+            <!-- Question 3: Myparent & Mychild -->
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    Q3: final Keyword Overriding Limitations & Encapsulation (Spring 24 Q2)
+                </div>
+                <div class="accordion-content">
+                    <p style="margin-bottom: 1rem; color: var(--text-muted);">
+                        Identify overriding errors with <code>final</code> methods, use super constructor, and compute square roots from encapsulated base fields.
+                    </p>
+                    <pre><code><span class="token-keyword">public</span> <span class="token-keyword">class</span> <span class="token-class">Myparent</span> {
+    <span class="token-keyword">private</span> <span class="token-keyword">int</span> p;
+    
+    <span class="token-keyword">public</span> <span class="token-keyword">final</span> <span class="token-keyword">int</span> <span class="token-method">myfunction</span>() {
+        <span class="token-keyword">return</span> p * p;
+    }
+    
+    <span class="token-keyword">public</span> <span class="token-class">Myparent</span>(<span class="token-keyword">int</span> Q) { <span class="token-keyword">this</span>.p = Q; }
+    <span class="token-keyword">public</span> <span class="token-class">Myparent</span>() { <span class="token-keyword">this</span>.p = <span class="token-number">0</span>; }
+    <span class="token-keyword">public</span> <span class="token-keyword">int</span> <span class="token-method">get_p</span>() { <span class="token-keyword">return</span> p; }
+}
+
+<span class="token-keyword">public</span> <span class="token-keyword">class</span> <span class="token-class">Mychild</span> <span class="token-keyword">extends</span> <span class="token-class">Myparent</span> {
+    <span class="token-keyword">public</span> <span class="token-class">Mychild</span>(<span class="token-keyword">int</span> K) { <span class="token-keyword">super</span>(K); }
+    <span class="token-keyword">public</span> <span class="token-class">Mychild</span>() { <span class="token-keyword">super</span>(<span class="token-number">0</span>); }
+
+    <span class="token-comment">// ERROR: Cannot override final method from Myparent</span>
+    <span class="token-comment">// public final int myfunction() { return get_p()*get_p() + 1; } </span>
+
+    <span class="token-keyword">public</span> <span class="token-keyword">double</span> <span class="token-method">myroot</span>() {
+        <span class="token-keyword">return</span> Math.sqrt(<span class="token-method">get_p</span>());
+    }
+}</code></pre>
+                </div>
+            </div>
+
+            <!-- Question 4: FoodItem casting -->
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    Q4: Polymorphism & Downcasting with FoodItem Arrays (Spring 24 Q4)
+                </div>
+                <div class="accordion-content">
+                    <p style="margin-bottom: 1rem; color: var(--text-muted);">
+                        Create base <code>FoodItem</code> references mapping subclasses (e.g. Fish, Vegetable), setting specific child parameters through safe explicit downcasting.
+                    </p>
+                    <pre><code><span class="token-keyword">public</span> <span class="token-keyword">class</span> <span class="token-class">MyTest</span> {
+    <span class="token-keyword">public</span> <span class="token-keyword">static</span> <span class="token-keyword">void</span> <span class="token-method">main</span>(String[] args) {
+        <span class="token-class">FoodItem</span> x[] = <span class="token-keyword">new</span> <span class="token-class">FoodItem</span>[<span class="token-number">2</span>];
+        x[<span class="token-number">0</span>] = <span class="token-keyword">new</span> <span class="token-class">Fish</span>(<span class="token-string">"small"</span>);
+        x[<span class="token-number">1</span>] = <span class="token-keyword">new</span> <span class="token-class">Vegetable</span>(<span class="token-string">"Cauliflower"</span>);
+        
+        <span class="token-comment">// Specific child methods executed via explicit downcasting</span>
+        ((<span class="token-class">Fish</span>) x[<span class="token-number">0</span>]).<span class="token-method">setparameter</span>();
+        ((<span class="token-class">Vegetable</span>) x[<span class="token-number">1</span>]).<span class="token-method">setparameter</span>();
+        
+        <span class="token-keyword">double</span> p = <span class="token-number">0</span>;
+        <span class="token-keyword">double</span> amount[] = {<span class="token-number">3</span>, <span class="token-number">2</span>};
+        <span class="token-keyword">for</span>(<span class="token-keyword">int</span> i = <span class="token-number">0</span>; i &lt; x.length; i++) {
+            p += x[i].<span class="token-method">getprice</span>(amount[i]);
+        }
+        System.out.println(<span class="token-string">"price = "</span> + p);
+    }
+}</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- FLASHCARDS TAB -->
+        <div id="flashcards" class="tab-content" role="tabpanel">
+            <h2 style="font-size: 1.6rem; font-weight: 800; margin-bottom: 1.5rem; color: var(--primary);">⚡ Flip Study Flashcards</h2>
+            <div class="flashcards-grid">
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="card-front">Instantiation</div>
+                        <div class="card-back">Creating a concrete instance of a class in the heap memory using the <code>new</code> keyword.</div>
+                    </div>
+                </div>
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="card-front">Shadowing</div>
+                        <div class="card-back">When a local variable or parameter has the same name as a field. Resolved using <code>this.fieldName</code>.</div>
+                    </div>
+                </div>
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="card-front">Static Variable</div>
+                        <div class="card-back">A class-level variable shared by all objects. Initialized once when the class is loaded.</div>
+                    </div>
+                </div>
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="card-front">Instance Variable</div>
+                        <div class="card-back">An object-level variable. Each object gets its own separate copy initialized on the heap.</div>
+                    </div>
+                </div>
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="card-front">Composition</div>
+                        <div class="card-back">A design relationship where one class contains reference variables of another class (e.g., Circle has a Point center).</div>
+                    </div>
+                </div>
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="card-front">Downcasting</div>
+                        <div class="card-back">Casting a general parent reference back into a specific subclass type to call its specific, non-overridden methods.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        // Tab switching logic
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+                btn.setAttribute('aria-selected', 'false');
+            });
+            
+            const activeTab = document.getElementById(tabId);
+            if (activeTab) {
+                activeTab.classList.add('active');
+            }
+            
+            const activeBtn = Array.from(document.querySelectorAll('.tab-btn')).find(btn => btn.innerText.toLowerCase().includes(tabId.substring(0,3)));
+            if (activeBtn) {
+                activeBtn.classList.add('active');
+                activeBtn.setAttribute('aria-selected', 'true');
+            }
+        }
+
+        // Accordion toggle logic
+        function toggleAccordion(header) {
+            const item = header.parentElement;
+            item.classList.toggle('open');
+        }
+
+        // Flashcard flip logic
+        function flipCard(card) {
+            card.classList.toggle('flipped');
+        }
+
+        // Tracing code check logic
+        const answers = {
+            1: "hello\nhello\n1\n10\n0\n5\n7\n1",
+            2: "25\n15\n95"
+        };
+
+        function checkTrace(id) {
+            const userInput = document.getElementById(`trace${id}-input`).value.trim().replace(/\r/g, "");
+            const feedbackBox = document.getElementById(`trace${id}-feedback`);
+            
+            const correctAnswer = answers[id];
+            
+            if (userInput === correctAnswer) {
+                feedbackBox.className = "feedback-box correct";
+                feedbackBox.innerHTML = "<strong>✅ Correct!</strong> Perfect output trace matching the Java runtime.";
+            } else {
+                feedbackBox.className = "feedback-box incorrect";
+                feedbackBox.innerHTML = `<strong>❌ Output Mismatch</strong><br>
+                                          <strong>Your Output:</strong><br><pre><code>${userInput || '(empty)'}</code></pre>
+                                          <strong>Expected Output:</strong><br><pre><code>${correctAnswer}</code></pre>
+                                          <p style="margin-top: 0.5rem; font-size: 0.85rem; color: #f87171;">Review static vs instance variables or trace calculations step by step!</p>`;
+            }
+        }
+    </script>
+</body>
+</html>
