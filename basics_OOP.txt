@@ -1,0 +1,25 @@
+class Point{
+    int x, y;
+    static int s;
+
+    //constructor
+    Point(int a, int b){
+        x = a;
+        y = b;
+        System.out.println("hello");
+    }
+    public static void main(String[] args) {
+        Point p1 = new Point(1, 2);
+        Point p2 = new Point(10, 10);
+        System.out.println(p1.x);
+        System.out.println(p2.x);
+        System.out.println(p1.s);
+        p1.s = 5;
+        System.out.println(p2.s);
+        Point.s = 7;
+        System.out.println(p1.s);
+        // Point.x = 3; // cant be executed
+        System.out.println(p1.x);
+    }
+
+}

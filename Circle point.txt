@@ -1,0 +1,54 @@
+class Point{
+    int x, y; // instance variable
+    Point(int x, int y){ // constructor
+        this.x = x;
+        this.y = y;
+    }
+    double distance(Point p){
+        int a = this.x;
+        int b = this.y;
+        int c = p.x;
+        int d = p.y;
+        return Math.sqrt((a - c) * (a -c) + (b -d) * (b - d));
+    }
+}
+
+public class Circle {
+    Point center;
+    double radius;
+    Circle(Point center, double radius){
+        this.center = center;
+        this.radius = radius;
+    }
+    void check(Point p){
+//        double dist = this.center.distance(p);
+        double dist = p.distance(this.center);
+//        p.distance(this.center)
+//        int a = this.center.x;
+//        int b = this.center.y;
+//        int c = p.x;
+//        int d = p.y;
+//        double distance = Math.sqrt((a - c) * (a - c) + (b - d) * (b - d));
+        if(dist > this.radius) System.out.println("outside");
+        else System.out.println("inside");
+    }
+}
+class Test{
+    public static void main(String[] args) {
+        Point center = new Point(1, 1);
+        double radius = 100;
+        Circle c = new Circle(center, radius);
+        Point p = new Point(10, 10);
+        c.check(p);
+
+        Point center1 = new Point(5, 6);
+        double radius1 = 10;
+        Circle c1 = new Circle(center1, radius1);
+        Point p1 = new Point(5, 8);
+        c1.check(p1);
+        c1.check(p);
+        c.check(p1);
+
+
+    }
+}

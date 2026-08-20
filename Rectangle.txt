@@ -1,0 +1,49 @@
+class Point{
+    int x, y;
+    Point(int x, int y){
+        this.x = x;
+        this.y = y;
+    }
+}
+
+public class Rectangle {
+    Point p1, p2;
+    Rectangle(Point p1, Point p2){
+        this.p2 = p2;
+        this.p1 = p1;
+    }
+    int check(Point p){ // check if a point is inside
+        if(p.x > this.p1.x && p.x < this.p2.x && p.y > this.p2.y && p.y < this.p1.y){
+            System.out.println("inside");
+            return 1;
+        }
+        else{
+            System.out.println("outside");
+            return 0;
+        }
+    }
+
+    void check1(Rectangle R){ // check if a Rectangle is inside
+        // this -> R1
+        // R -> R2
+        if(this.check(R.p1) == 1 && this.check(R.p2) == 1){
+            System.out.println("inside");
+        }
+        else System.out.println("outside");
+    }
+
+    public static void main(String[] args) {
+        Point p1 = new Point(1, 10);
+        Point p2 = new Point(10, 1);
+        Rectangle R1 = new Rectangle(p1, p2);
+        p1 = new Point(9, 2);
+        p2 = new Point(2, 9);
+        Rectangle R2 = new Rectangle(p1, p2);
+        R1.check1(R2);
+
+        Point p = new Point(5, 6);
+        R1.check(p);
+        R2.check(p);
+    }
+}
+
