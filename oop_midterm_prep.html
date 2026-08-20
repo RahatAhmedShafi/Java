@@ -532,6 +532,9 @@
             <button class="tab-btn" onclick="switchTab('concepts')" role="tab" aria-selected="false">
                 📖 Core Concepts
             </button>
+            <button class="tab-btn" onclick="switchTab('slides')" role="tab" aria-selected="false">
+                📚 Slide Notes
+            </button>
             <button class="tab-btn" onclick="switchTab('tracing')" role="tab" aria-selected="false">
                 💻 Output Tracing
             </button>
@@ -699,6 +702,84 @@
                     <p>A reference variable of type Parent can refer to a Child object. To use specific child methods, downcast explicitly:</p>
                     <pre><code><span class="token-class">FoodItem</span> x = <span class="token-keyword">new</span> <span class="token-class">Fish</span>(<span class="token-string">"Hilsha"</span>);
 ((<span class="token-class">Fish</span>) x).<span class="token-method">setparameter</span>(); <span class="token-comment">// Downcasting syntax</span></code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE NOTES TAB -->
+        <div id="slides" class="tab-content" role="tabpanel">
+            <div class="card">
+                <h2 class="card-title">📚 Lecture 1 & 2: OOP Intro & Java Basics</h2>
+                <div class="concept-note">
+                    <h4>Procedural vs. Object-Oriented Programming</h4>
+                    <p>Procedural focuses on step-by-step instructions (methods) acting on passive data. OOP bundles data and behaviors together into objects, supporting modularity and reusability.</p>
+                </div>
+                <div class="concept-note">
+                    <h4>Java Reference Types on the Heap</h4>
+                    <p>Unlike primitive types (like <code>int</code>, <code>double</code>) that hold values directly in stack memory, reference variables (like arrays, objects) hold the memory address of the actual data allocated on the <strong>Heap</strong>.</p>
+                    <pre><code><span class="token-comment">// Stack: p1 (reference) -> Heap: Point object [x=0, y=0]</span>
+<span class="token-class">Point</span> p1 = <span class="token-keyword">new</span> <span class="token-class">Point</span>(); </code></pre>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2 class="card-title">📚 Lecture 3: Classes, Constructors, and Memory</h2>
+                <div class="concept-note">
+                    <h4>Constructor Overloading & Constructor Call using <code>this()</code></h4>
+                    <p>You can define multiple constructors with different argument list signatures. To call one constructor from another in the same class, use <code>this(...)</code> as the <strong>very first statement</strong> of the constructor.</p>
+                    <pre><code><span class="token-keyword">class</span> <span class="token-class">Box</span> {
+    <span class="token-keyword">double</span> width, height, depth;
+
+    <span class="token-class">Box</span>(<span class="token-keyword">double</span> w, <span class="token-keyword">double</span> h, <span class="token-keyword">double</span> d) {
+        width = w;
+        height = h;
+        depth = d;
+    }
+
+    <span class="token-comment">// Overloaded constructor delegating initialization to the 3-arg constructor</span>
+    <span class="token-class">Box</span>(<span class="token-keyword">double</span> len) {
+        <span class="token-keyword">this</span>(len, len, len); <span class="token-comment">// MUST be the first statement!</span>
+    }
+}</code></pre>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2 class="card-title">📚 Lecture 4: OOP Principles (Inheritance & super Keyword)</h2>
+                <div class="concept-note">
+                    <h4>Inheritance & Hiding Instance Variables</h4>
+                    <p>Java supports Single, Multilevel, and Hierarchical inheritance (multiple inheritance is NOT supported for classes). When a subclass has an instance variable with the same name as the parent class, it hides it. Use <code>super.variableName</code> to access the parent version.</p>
+                    <pre><code><span class="token-keyword">class</span> <span class="token-class">Parent</span> {
+    String name;
+}
+<span class="token-keyword">class</span> <span class="token-class">Child</span> <span class="token-keyword">extends</span> <span class="token-class">Parent</span> {
+    String name; <span class="token-comment">// Hides Parent's 'name' variable</span>
+
+    <span class="token-class">Child</span>(String a, String b) {
+        <span class="token-keyword">super</span>.name = a; <span class="token-comment">// Modifies parent's name variable</span>
+        <span class="token-keyword">this</span>.name = b;  <span class="token-comment">// Modifies child's name variable</span>
+    }
+}</code></pre>
+                </div>
+                <div class="concept-note">
+                    <h4>Constructor Chaining Rules</h4>
+                    <p>Constructors are executed in order of class hierarchy (Parent first, then Child). If you do not explicitly call <code>super()</code> as the first statement in a subclass constructor, the Java compiler automatically inserts an implicit, parameterless <code>super()</code> call.</p>
+                    <p><span class="highlight-text">⚠️ Warning:</span> If the parent class defines a parameterized constructor but lacks a default no-arg constructor, omitting explicit <code>super(...)</code> in the child constructor results in a compile-time error.</p>
+                </div>
+                <div class="concept-note">
+                    <h4>Binding: Static vs. Dynamic</h4>
+                    <ul>
+                        <li><strong>Static Binding (Early Binding):</strong> Resolved at compile-time. Appended to <code>static</code>, <code>private</code>, and <code>final</code> methods because they cannot be overridden.</li>
+                        <li><strong>Dynamic Binding (Late Binding):</strong> Resolved at runtime. Associated with overridden methods. The type of the actual object instantiated on the Heap determines which version of the method runs.</li>
+                    </ul>
+                </div>
+                <div class="concept-note">
+                    <h4>Polymorphism Downcasting Check</h4>
+                    <p>Always verify the object type using the <code>instanceof</code> operator before downcasting to avoid a <code>ClassCastException</code> at runtime.</p>
+                    <pre><code><span class="token-class">Animal</span> a = <span class="token-keyword">new</span> <span class="token-class">Bird</span>();
+<span class="token-keyword">if</span> (a <span class="token-keyword">instanceof</span> <span class="token-class">Bird</span>) {
+    ((<span class="token-class">Bird</span>) a).<span class="token-method">fly</span>(); <span class="token-comment">// Safe downcast</span>
+}</code></pre>
                 </div>
             </div>
         </div>
